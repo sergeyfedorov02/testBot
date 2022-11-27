@@ -77,20 +77,27 @@ def get_info_about_url(new_youtube_link):
 def get_info_about_timecodes(timecodes, video_duration):
     split_message = timecodes.split(" ")
 
-    if len(split_message) != 2:
-        return False, "Вы не ввели 2 значения! 😢"
+    # Введенный текст не содержит двух значений
+    if len(split_message) < 2:
+        return False, "Введите хотя бы 2 значения, пожалуйста 😢"
     else:
-        first_step = time_step_info(split_message[0], video_duration)
-        if not first_step[0]:
-            return False, "Вы ввели значение <b>под номером один</b> в неправильном формате 😢\n{0}😢".format(
-                first_step[1])
+        steps = []
+        last_step = 0
+        for step in range(len(split_message)):
+            steps.append(time_step_info(split_message[step], video_duration))
 
-        second_step = time_step_info(split_message[1], video_duration)
-        if not second_step[0]:
-            return False, "Вы ввели значение <b>под номером два</b> в неправильном формате 😢\n{0}😢".format(
-                second_step[1])
+            # Значение под номером step было введено неправильно
+            if not steps[step][0]:
+                last_step = step
+                break
 
-        return True, "Замечательно, сейчас отправлю вам GIF-ку 😊", [first_step, second_step]
+        if not steps[last_step][0]:
+            return False, "Вы ввели значение <b>под номером {0}</b> в неправильном формате 😢\n{1}😢".format(
+                last_step + 1, steps[last_step][1])
+
+        else:
+
+            return True, "Замечательно, сейчас отправлю вам GIF-ку 😊", steps
 
 
 # Дополнительная функция для вычисления длительности видео в часах, минутах и секундах
