@@ -290,6 +290,19 @@ if __name__ == '__main__':
                              parse_mode='html', reply_markup=types.ReplyKeyboardRemove())
 
 
+    # Обработка команды /help
+    @bot.message_handler(commands=['help'])
+    def command_help(message):
+        chat_id = message.chat.id  # Получем id чата
+
+        bot.send_message(chat_id, "<b>Доступные команды:</b>"
+                                  "\n/start - для запуска бота"
+                                  "\n/help - отображение доступных команд"
+                                  "\n/getInfoAboutVideo - получение информации о последнем видео (последнее URL)"
+                                  "\n/getInfoAboutYouTuber - получение информации о последнем Ютубере (последнее URL)",
+                         parse_mode='html')
+
+
     # Обработка команды /getInfoAboutYouTuber
     @bot.message_handler(commands=['getInfoAboutYouTuber'])
     def command_last_gif(message):
@@ -307,6 +320,7 @@ if __name__ == '__main__':
                                                                                chat_dict[chat_id].num_followers,
                                                                                chat_dict[chat_id].num_videos),
                              parse_mode='html')
+
 
     # Обработка команды /getInfoAboutVideo
     @bot.message_handler(commands=['getInfoAboutVideo'])
