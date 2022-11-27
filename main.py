@@ -13,6 +13,10 @@ import os
 
 import datetime
 
+import requests
+
+import json
+
 import config
 
 
@@ -29,6 +33,9 @@ class VideoInfo:
         self.wait_answer = True  # True - ждем ответа из callback функции (обрабатываем нажатие кнопок)
         self.message_inline_button_id = None  # Id сообщения от бота с Inline клавиатурой, чтобы можно было ее удалить
         self.wait_GIF = False  # True - сейчас формируется GIF-ка, чтобы запретить другие действия
+        self.uploader = None  # Имя канала (пользователя), загрузившего видео
+        self.num_followers = None  # Количество подписчиков пользователя, загрузившего видео
+        self.num_videos = None  # Общее количество видео, которые загрузил пользователь
 
 
 # Функция для разбора видео по принятой от пользователя ссылки
@@ -47,14 +54,23 @@ def get_information_from_youtube_video(current_youtube_video_link):
         if info_dict is None:
             return None
         else:
-            xx = 0
-            x = xx
+            cur_uploader = info_dict.get("uploader", None)
+            cur_channel_id = info_dict.get("channel_id", None)
+
+            channel_url = f'https://www.googleapis.com/youtube/v3/channels?part=statistics&id={cur_channel_id}&key=AIzaSyAda7zjhAUE0PHBPcjGyfUUlFakEhgWYbs'
+
+            json_url = requests.get(channel_url)
+            data = json.loads(json_url.text)
+
+            cur_num_followers = int(data["items"][0]["statistics"]["subscriberCount"])
+            cur_num_videos = int(data["items"][0]["statistics"]["videoCount"])
+
             cur_video_id = info_dict.get("id", None)
             cur_video_views = info_dict.get("view_count", None)
             cur_video_date = info_dict.get("upload_date", None)
             cur_video_duration = info_dict.get("duration", None)
             cur_video_title = info_dict.get("title", None)
-            return cur_video_id, cur_video_views, cur_video_date, cur_video_duration, cur_video_title
+            return cur_video_id, cur_video_views, cur_video_date, cur_video_duration, cur_video_title, cur_uploader, cur_num_followers, cur_num_videos
 
 
 # Функция для получения информации о введенном URL
@@ -274,6 +290,25 @@ if __name__ == '__main__':
                              parse_mode='html', reply_markup=types.ReplyKeyboardRemove())
 
 
+    # Обработка команды /getInfoAboutYouTuber
+    @bot.message_handler(commands=['getInfoAboutYouTuber'])
+    def command_last_gif(message):
+        chat_id = message.chat.id  # Получем id чата
+        if chat_id not in chat_dict.keys():
+            bot.send_message(chat_id, "Вы ещё не присылали ни одной ссылки на видео")
+        elif chat_id in chat_dict.keys() and chat_dict[chat_id].uploader is None:
+            bot.send_message(chat_id, "Вы ещё не присылали ни одной ссылки на видео")
+        else:
+            # Отправляем информацию о Ютубере пользователю
+            bot.send_message(chat_id,
+                             "<b>Название канала:</b> {0}\n"
+                             "<b>Количество подписчиков:</b> {1}\n"
+                             "<b>Количество видео на канале:</b> {2}\n".format(chat_dict[chat_id].uploader,
+                                                                               chat_dict[chat_id].num_followers,
+                                                                               chat_dict[chat_id].num_videos),
+                             parse_mode='html')
+
+
     # Обработка сообщения после ввода текста пользователем
     @bot.message_handler(content_types=['text'])
     def message_from_bot(message):
@@ -310,6 +345,10 @@ if __name__ == '__main__':
                         current_chat.date = info_from_video[2]
                         current_chat.duration = info_from_video[3]
                         current_chat.title = info_from_video[4]
+
+                        current_chat.uploader = info_from_video[5]
+                        current_chat.num_followers = info_from_video[6]
+                        current_chat.num_videos = info_from_video[7]
 
                         current_chat.wait_answer = True  # Получили новое видео -> ждем ответа на вопрос
 
