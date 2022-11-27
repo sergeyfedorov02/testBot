@@ -47,6 +47,8 @@ def get_information_from_youtube_video(current_youtube_video_link):
         if info_dict is None:
             return None
         else:
+            xx = 0
+            x = xx
             cur_video_id = info_dict.get("id", None)
             cur_video_views = info_dict.get("view_count", None)
             cur_video_date = info_dict.get("upload_date", None)
