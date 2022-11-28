@@ -41,6 +41,12 @@
 
 ![Open Project](src/open_project.PNG)
 
+Затем настройте интерпретатор Python, для этого перейдите ```File->Settings->Project:TelegramBotForYouTube->Python Interpreter``` и выполните следующую настройку:
+
+![Open Project](src/add_interpreter_1.PNG)
+
+![Open Project](src/add_interpreter_2.PNG)
+
 Теперь откройте файл ```main.py``` и на строке 244 запустите бота:
 
 ![Start Bot](src/start_bot.PNG)
