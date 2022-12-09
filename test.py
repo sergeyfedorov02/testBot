@@ -9,7 +9,8 @@ test_video = main.get_information_from_youtube_video(test_url)
 
 def test_get_id_video():
     video_id = "kRnZCTZn5bQ"
-    assert test_video[0] == video_id
+    gg = test_video[0]
+    assert gg == video_id
 
 
 def test_get_views_video():
