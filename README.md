@@ -3,6 +3,11 @@
 ## Описание
 Телеграмм бот, который получает ссылку на YouTube (+хотя бы 2 таймстемпа), и возвращает gif-ку.
 
+## Тестирование
+
+develop - [![Tests for TelegramBotYouTube](https://github.com/sergeyfedorov02/testBot/actions/workflows/python-app.yml/badge.svg?branch=develop)](https://github.com/sergeyfedorov02/testBot/actions/workflows/python-app.yml)
+main - [![Tests for TelegramBotYouTube](https://github.com/sergeyfedorov02/testBot/actions/workflows/python-app.yml/badge.svg?branch=main)](https://github.com/sergeyfedorov02/testBot/actions/workflows/python-app.yml)
+
 ## Возможности
 - **Получение gif-ки после отправления боту ссылки на видео и хотя бы двух валидных таймстепов согласно инструкции** - основной функционал проекта
 - **Команда ```/start```** - старт и перезапуска бота, если что-то пошло не так. Будетс сформировано красивое привествие и высвечен список всех доступных команд.
