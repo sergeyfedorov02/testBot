@@ -8,9 +8,8 @@ test_video = main.get_information_from_youtube_video(test_url)
 
 
 def test_get_id_video():
-    video_id = "kRnZCTZn5bQ"
-    gg = test_video[0]
-    assert gg == video_id
+
+    assert main.get_information_from_youtube_video(test_url) == ("kRnZCTZn5bQ", 1273695, "20221123", 563, "Испания - Коста-Рика. Обзор матча ЧМ-2022 23.11.2022", "Матч ТВ", 3400000, 12825)
 
 
 def test_get_views_video():
