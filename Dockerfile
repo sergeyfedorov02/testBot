@@ -1,6 +1,6 @@
 # first stage
 FROM python:3.7.1 AS builder
-COPY requirementsDocker.txt .
+COPY TelegramBotYouTube/requirementsDocker.txt .
 # COPY youtube_com_cookies.txt .
 
 # install dependencies to the local user directory (eg. /root/.local)
