@@ -4,47 +4,48 @@ import TelegramBotYouTube.main as main
 
 test_url = "https://www.youtube.com/watch?v=kRnZCTZn5bQ"
 test_duration = 11123
+test_video = main.get_information_from_youtube_video(test_url)
 
 
 def test_get_id_video():
     video_id = "kRnZCTZn5bQ"
-    assert main.get_information_from_youtube_video(test_url)[0] == video_id
+    assert test_video[0] == video_id
 
 
 def test_get_views_video():
     # Количество просмотров всегда будет расти, поэтому проверим на то, что значение больше взятого на 30.11.2022
     current_views = 1251539
-    assert main.get_information_from_youtube_video(test_url)[1] != current_views
+    assert test_video[1] != current_views
 
 
 def test_get_date_video():
     video_date = "20221123"
-    assert main.get_information_from_youtube_video(test_url)[2] == video_date
+    assert test_video[2] == video_date
 
 
 def test_get_duration_video():
     video_duration = 563
-    assert main.get_information_from_youtube_video(test_url)[3] == video_duration
+    assert test_video[3] == video_duration
 
 
 def test_get_title_video():
     video_title = "Испания - Коста-Рика. Обзор матча ЧМ-2022 23.11.2022"
-    assert main.get_information_from_youtube_video(test_url)[4] == video_title
+    assert test_video[4] == video_title
 
 
 def test_get_uploader_video():
     video_uploader = "Матч ТВ"
-    assert main.get_information_from_youtube_video(test_url)[5] == video_uploader
+    assert test_video[5] == video_uploader
 
 
 def test_get_num_followers_video():
     video_num_followers = 3360000
-    assert main.get_information_from_youtube_video(test_url)[6] != video_num_followers
+    assert test_video[6] != video_num_followers
 
 
 def test_get_num_videos():
     video_num_videos = 12737
-    assert main.get_information_from_youtube_video(test_url)[7] >= video_num_videos
+    assert test_video[7] >= video_num_videos
 
 
 def test_get_info_about_url():
