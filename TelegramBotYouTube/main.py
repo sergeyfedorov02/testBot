@@ -3,7 +3,7 @@ from telebot import types
 
 from youtube_dl import YoutubeDL
 
-from pafy import pafy
+from TelegramBotYouTube.pafy import pafy
 
 import cv2
 
@@ -17,7 +17,7 @@ import requests
 
 import json
 
-import config
+import TelegramBotYouTube.config as config
 
 
 # Создаем класс нашего видео, чтобы хранить там информацию о нем
